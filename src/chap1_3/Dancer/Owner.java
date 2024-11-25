@@ -1,4 +1,4 @@
-package chap1_3;
+package chap1_3.Dancer;
 
 //  소유자 클래스
 public class Owner {
