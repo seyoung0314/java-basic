@@ -29,13 +29,18 @@ public class MethodQuiz {
         return index;
     }
 
-    static void pop() {
+    static String pop() {
+        if (foods.length == 0) {
+            System.out.println(" 데이터가 없습니다.");
+        }
+        String returnValue = foods[foods.length - 1];
         String[] temp = new String[foods.length - 1];
         for (int i = 0; i < temp.length; i++) {
             temp[i] = foods[i];
         }
         foods = temp;
         temp = null;
+        return returnValue;
     }
 
     static void remove(String removeString) {
@@ -49,6 +54,21 @@ public class MethodQuiz {
         }
         foods = temp;
         temp = null;
+    }
+
+    // 오버 로딩 : 같은 이름으로 함수흫 여러 개 만드는 기능
+    static void remove(int index) {
+        if (isOutOfBounds(index)) return;
+        String foodName = foods[index];
+        remove(foodName);
+    }
+
+    static void remove2(String removeString) {
+        if (!include(removeString)) return;
+        for (int i = indexOf(removeString); i < foods.length - 1; i++) {
+            foods[i] = foods[i - 1];
+        }
+        return;
     }
 
     static boolean include(String includeStirng) {
@@ -65,6 +85,7 @@ public class MethodQuiz {
     }
 
     static void insert(int index, String insertString) {
+        if (isOutOfBounds(index)) return;
         String[] temp = new String[foods.length + 1];
         for (int i = 0; i < foods.length; i++) {
             temp[i] = foods[i];
@@ -77,9 +98,16 @@ public class MethodQuiz {
         temp = null;
     }
 
-    static void modify(int index,String modifyString){
+    static void modify(int index, String modifyString) {
+        if (isOutOfBounds(index)) return;
         foods[index] = modifyString;
     }
+
+    private static boolean isOutOfBounds(int index) {
+        return index < 0 || index >= foods.length;
+    }
+
+
     public static void main(String[] args) {
         printFoods();
         push("라면");
