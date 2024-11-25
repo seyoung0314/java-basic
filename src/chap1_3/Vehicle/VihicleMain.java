@@ -12,5 +12,6 @@ public class VihicleMain {
         panamere.accelerate();
         panamere.accelerate();
         panamere.accelerate();
+        panamere.brake();
     }
 }

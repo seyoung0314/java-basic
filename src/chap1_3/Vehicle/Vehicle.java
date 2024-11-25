@@ -44,4 +44,9 @@ public class Vehicle {
         currentSpeed += 20;
         System.out.printf("\n현재 속도 :  %d km/h\n",currentSpeed);
     }
+    void brake(){
+        System.out.printf("%s 자동차가 주행을 시작합니다.",model);
+        currentSpeed -= 20;
+        System.out.printf("\n현재 속도 :  %d km/h\n",currentSpeed);
+    }
 }
