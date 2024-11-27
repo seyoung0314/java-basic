@@ -1,4 +1,4 @@
-package chap1_3.Student;
+package chap1_3.practice.Student;
 
 public class Student {
     int studentId;

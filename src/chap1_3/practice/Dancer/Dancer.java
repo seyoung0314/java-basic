@@ -1,4 +1,4 @@
-package chap1_3.Dancer;
+package chap1_3.practice.Dancer;
 
 import java.util.Arrays;
 

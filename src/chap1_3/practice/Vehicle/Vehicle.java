@@ -1,6 +1,6 @@
-package chap1_3.Vehicle;
+package chap1_3.practice.Vehicle;
 
-import chap1_3.Dancer.Owner;
+import chap1_3.practice.Dancer.Owner;
 
 public class Vehicle {
     //속성(필드)정의

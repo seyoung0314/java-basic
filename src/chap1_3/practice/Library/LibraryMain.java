@@ -1,4 +1,4 @@
-package chap1_3.Library;
+package chap1_3.practice.Library;
 
 public class LibraryMain {
     public static void main(String[] args) {

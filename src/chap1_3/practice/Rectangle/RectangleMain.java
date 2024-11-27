@@ -1,4 +1,4 @@
-package chap1_3.Rectangle;
+package chap1_3.practice.Rectangle;
 
 public class RectangleMain {
     public static void main(String[] args) {

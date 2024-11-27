@@ -1,4 +1,4 @@
-package chap1_3.Vehicle;
+package chap1_3.practice.Vehicle;
 
 public class VihicleMain {
     public static void main(String[] args) {
