@@ -1,4 +1,4 @@
-package chap1_3.Dancer;
+package chap1_3.practice.Dancer;
 
 public class DancerMain {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package chap1_3.Bankaccount;
+package chap1_3.practice.Bankaccount;
 
 public class BankAccount {
     String accountNumber;
@@ -27,6 +27,11 @@ public class BankAccount {
         balance -= amount;
     }
 
+//    void trasnsfer(double BanckAccount,double balance{
+//        balance += BanckAccount;
+//
+//        BanckAccount -= balance;
+//    })
     void displayBalance() {
         System.out.println("잔액 : " + (int) balance);
     }
