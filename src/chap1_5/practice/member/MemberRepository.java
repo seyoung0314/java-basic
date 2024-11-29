@@ -5,8 +5,10 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class MemberRepository {
-    Member[] memberList;
-    Member[] stashMember = new Member[]{};
+
+    Member[] memberList;    // 가입된 회원배열
+    Member[] stashMember = new Member[]{};  // 삭제된 회원 백업 배열
+
     Scanner sc = new Scanner(System.in);
 
     MemberRepository() {
@@ -24,7 +26,11 @@ public class MemberRepository {
     }
 
 
-    //회원목록에 새로운 회원을 추가하는 메서드
+    /**
+     * 회원목록에 새로운 회원을 추가하는 메서드
+     *
+     * @param newMember - 새로운 회원 정보
+     */
     void addMembers(Member newMember) {
         //push
         Member[] temp = new Member[memberList.length + 1];
@@ -38,15 +44,17 @@ public class MemberRepository {
     /**
      * 비밀번호 일치 확인 메서드
      *
-     * @param targetEmail
-     * @return - boolean
+     * @param targetEmail - 일치하는지 확인 할 대상 이메일
+     * @param inputPassword - 사용자가 입력한 비밀번호
+     * @param option - "recover" : 복구메뉴 옵션
+     * @return - 비밀번호가 일치하면 true
      */
-    boolean isPasswordValid(String targetEmail, String inputPassword,String option) {
+    boolean isPasswordValid(String targetEmail, String inputPassword, String option) {
         Member targetMember;
-        if(option.equals("recover")){
-            targetMember = findMemberByEmail(targetEmail,"recover");
-        }else{
-            targetMember =  findMemberByEmail(targetEmail,"none");
+        if (option.equals("recover")) {
+            targetMember = findMemberByEmail(targetEmail, "recover");
+        } else {
+            targetMember = findMemberByEmail(targetEmail, "none");
         }
         if (targetMember.password.equals(inputPassword)) {
             return true;
@@ -55,24 +63,33 @@ public class MemberRepository {
         }
     }
 
+    /**
+     * 회원 배열에서 특정회원의 배열 인덱스를 찾는 메서드
+     *
+     * @param targetEmail - 찾을 회원의 이메일
+     * @return - 배열의 위치 index
+     */
     int searchIndex(String targetEmail) {
-        int index = -1;
         Member[] members = this.getMembers();
         for (int i = 0; i < members.length; i++) {
             if (targetEmail.equals(members[i].email)) {
-                index = i;
-                return index;
+                return i;
             }
         }
-        return index;
+        return -1;
     }
 
     /**
-     * 회원정보 삭제
+     * 회원 삭제 메서드
+     *
+     * @param targetEmail - 삭제 할 대상 이메일
      */
     void deleteMember(String targetEmail) {
         Member[] temp = new Member[memberList.length - 1];
         int targetIndex = this.searchIndex(targetEmail);
+
+        // 삭제된 회원정보를 백업
+        stashAddMember(memberList[targetIndex]);
 
         for (int i = targetIndex; i < memberList.length - 1; i++) {
             memberList[i] = memberList[i + 1];
@@ -81,11 +98,15 @@ public class MemberRepository {
         for (int i = 0; i < temp.length; i++) {
             temp[i] = memberList[i];
         }
-        stashAddMember(memberList[memberList.length - 1]);
         memberList = temp;
         temp = null;
     }
 
+    /**
+     * 삭제된 회원정보 백업 메서드
+     *
+     * @param newMember - 삭제된 회원의 정보
+     */
     void stashAddMember(Member newMember) {
         //push
         Member[] temp = new Member[stashMember.length + 1];
@@ -97,7 +118,11 @@ public class MemberRepository {
     }
 
 
-    // 데이터 복구
+    /**
+     * 회원정보 복구 메서드
+     *
+     * @param targetEmail - 복구 대상 회원의 이메일
+     */
     void recoverDeletedMember(String targetEmail) {
         for (Member m : stashMember) {
             if (targetEmail.equals(m.email)) {
@@ -122,9 +147,24 @@ public class MemberRepository {
     }
 
     /**
+     * 비밀번호 변경 메서드
+     *
+     * @param targetEmail - 이메일 변경 대상 문자열
+     * @param newPassword - 변경 할 비밀번호
+     */
+    void updatedPassword(String targetEmail, String newPassword) {
+        for (Member m : memberList) {
+            if (targetEmail.equals(m.email)) {
+                m.password = newPassword;
+            }
+        }
+    }
+
+    /**
      * 해당 이메일 객체를 리턴하는 메서드
      *
      * @param targetEmail - 탐색 대상의 이메일
+     * @param option      - "recover" 옵션 일 시 삭제된 회원 리스트로 조회
      * @return - 이메일이 일치하는 회원을, 없다면 null 반환
      */
     Member findMemberByEmail(String targetEmail, String option) {
@@ -142,6 +182,9 @@ public class MemberRepository {
         return null;
     }
 
+    int size() {
+        return memberList.length;
+    }
 
     // 입력을 쉽게 처리해주는 메서드
     String prompt(String message) {
@@ -149,3 +192,4 @@ public class MemberRepository {
         return sc.nextLine();
     }
 }
+
