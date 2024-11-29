@@ -254,7 +254,7 @@ public class MemberController {
     }
 
     // 입력을 쉽게 처리해주는 메서드
-    String prompt(String message) {
+    public String prompt(String message) {
         System.out.printf("%s ", message);
         return sc.nextLine();
     }
