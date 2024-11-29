@@ -19,7 +19,8 @@ public class MemberController {
 
     //프로그램 초기화면 출력
     void mainView() {
-        System.out.println("\n##### 회원관리 시스템 #####");
+        int size = mr.size();
+        System.out.printf("\n##### 회원관리 시스템 (현재 회원 수 : %d명) #####\n", size);
         System.out.println("* 1. 회원정보 등록하기");
         System.out.println("* 2. 전체 회원 조회");
         System.out.println("* 3. 개별 회원 조회");
@@ -34,6 +35,7 @@ public class MemberController {
     void Start() {
         while (true) {
             this.mainView();
+            int size = mr.size();
             String menuNum = prompt(">> ");
             switch (menuNum) {
                 case "1":
@@ -50,7 +52,11 @@ public class MemberController {
                     modifyMember();
                     break;
                 case "5":
-                    deleteMember();
+                    if (size == 0) {
+                        System.out.println("# 현재 삭제 가능한 회원이 없습니다.");
+                    } else {
+                        deleteMember();
+                    }
                     break;
                 case "6":
                     recoverMember();
@@ -66,24 +72,25 @@ public class MemberController {
 
     }
 
+    // 6번 회원정보 복구하기
     void recoverMember() {
         while (true) {
             String email = prompt("# 복구 대상의 이메일 : ");
-            Member foundEmail = mr.findMemberByEmail(email,"recover");
+            Member foundEmail = mr.findMemberByEmail(email, "recover");
             if (foundEmail != null) {
                 while (true) {
                     String password = prompt("비밀번호 : ");
-                    if (mr.isPasswordValid(email, password,"recover")) {
+                    if (mr.isPasswordValid(email, password, "recover")) {
                         mr.recoverDeletedMember(email);
-                        System.out.printf("\n%s 님 정보 복구되었습니다.\n",email);
+                        System.out.printf("\n%s 님 정보 복구되었습니다.\n", email);
                         break;
                     } else {
-                        System.out.println("#비밀번호가 일치하지 않습니다.");
+                        System.out.println("# 비밀번호가 일치하지 않습니다.");
                     }
                 }
                 break;
             } else {
-                System.out.println("존재하지 않는 이메일입니다.");
+                System.out.println("# 존재하지 않는 이메일입니다.");
             }
         }
     }
@@ -92,20 +99,34 @@ public class MemberController {
     void deleteMember() {
         while (true) {
             String email = prompt("# 삭제 대상의 이메일 : ");
-            Member foundEmail = mr.findMemberByEmail(email,"none");
+            Member foundEmail = mr.findMemberByEmail(email, "none");
+
             if (foundEmail != null) {
                 while (true) {
-                    String password = prompt("비밀번호 : ");
-                    if (mr.isPasswordValid(email, password,"none")) {
-                        mr.deleteMember(email);
+                    String password = prompt("# 현재 비밀번호 : ");
+
+                    // 사용자 삭제 검증
+                    if (mr.isPasswordValid(email, password, "none")) {
+                        System.out.println("# 정말로 삭제하시겠습니까?");
+                        String dangerMessage = prompt("# 이메일을 다시 한번 입력하세요. : ");
+
+                        // 이메일 재입력 받아서 삭제하도록
+                        if (dangerMessage.equals(email)) {
+                            mr.deleteMember(email);
+                            System.out.println("# 회원탈퇴가 처리되었습니다.");
+                            System.out.println("# 복구하시려면 복구메뉴를 사용해주세요.");
+
+                        } else {
+                            System.out.println("# 다시 확인해주세요.");
+                        }
                         break;
                     } else {
-                        System.out.println("#비밀번호가 일치하지 않습니다.");
+                        System.out.println("# 비밀번호가 일치하지 않습니다.");
                     }
                 }
                 break;
             } else {
-                System.out.println("존재하지 않는 이메일입니다.");
+                System.out.println("# 존재하지 않는 이메일입니다.");
             }
         }
     }
@@ -114,10 +135,23 @@ public class MemberController {
     void modifyMember() {
         while (true) {
             String email = prompt("# 수정 대상의 이메일 : ");
-            Member foundEmail = mr.findMemberByEmail(email,"none");
+            Member foundEmail = mr.findMemberByEmail(email, "none");
+
             if (foundEmail != null) {
+                while (true) {
+                    String password = prompt("# 비밀번호 : ");
+                    if (foundEmail.email.equals(password)) {
+                        System.out.println("# 이전 비밀번호와 같습니다.");
+                    } else {
+                        break;
+                    }
+                }
                 System.out.printf("# %s님의 비밀번호를 변경합니다.\n", foundEmail.memberName);
-                foundEmail.password = prompt("새로운 비밀번호 : ");
+
+                // 자바의 객체지향적 구조처리에는 맞지않음
+//                foundEmail.password = prompt("# 새로운 비밀번호 : ");
+                String newPassword = prompt("# 새로운 비밀번호 : ");
+                mr.updatedPassword(foundEmail.email, newPassword);
                 System.out.println("# 비밀번호 변경이 완료되었습니다.");
                 break;
             } else {
@@ -132,7 +166,8 @@ public class MemberController {
             String email = prompt("#조회 대상의 이메일");
 
             // 조회 대상 탐색 -> 성공 시 해당 객체를 받아옴
-            Member foundMember = mr.findMemberByEmail(email,"none");
+            Member foundMember = mr.findMemberByEmail(email, "none");
+
             if (foundMember != null) {
 //                foundMember.inform();
                 foundMember.detailInfo();
@@ -219,7 +254,7 @@ public class MemberController {
     }
 
     // 입력을 쉽게 처리해주는 메서드
-    String prompt(String message) {
+    public String prompt(String message) {
         System.out.printf("%s ", message);
         return sc.nextLine();
     }
