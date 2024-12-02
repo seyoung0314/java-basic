@@ -6,4 +6,25 @@ public class Main {
         // IntelliJ IDEA이(가) 수정을 제안하는 것을 확인할 수 있습니다.
         System.out.println("Hello 에");
     }
+    class Components{
+        String stringField;
+        int intField;
+        double doubleField;
+        String[] arrayField;
+
+        public Components() {
+        }
+
+        public Components(String stringField, int intField, double doubleField, String[] arrayField) {
+            this.stringField = stringField;
+            this.intField = intField;
+            this.doubleField = doubleField;
+            this.arrayField = arrayField;
+        }
+
+        public int methodEx(int number){
+            return number;
+        }
+
+    }
 }
