@@ -6,7 +6,8 @@ public class Main {
         // IntelliJ IDEA이(가) 수정을 제안하는 것을 확인할 수 있습니다.
         System.out.println("Hello 에");
     }
-    class Components{
+
+    class Components {
         String stringField;
         int intField;
         double doubleField;
@@ -22,9 +23,20 @@ public class Main {
             this.arrayField = arrayField;
         }
 
-        public int methodEx(int number){
+        public int methodEx(int number) {
             return number;
         }
 
+    }
+
+    public class Parent {
+        int parentInt = 50;
+    }
+
+    public class Child extends Parent{
+        int childInt = 30;
+    }
+    public class Main2{
+        Child child = new Child();
     }
 }
