@@ -39,4 +39,6 @@ public class Main {
     public class Main2{
         Child child = new Child();
     }
+
+
 }
