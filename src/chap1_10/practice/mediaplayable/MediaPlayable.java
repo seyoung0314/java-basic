@@ -1,6 +1,4 @@
-package chap1_10.inter.mediaplayable;
-
-import org.w3c.dom.stylesheets.MediaList;
+package chap1_10.practice.mediaplayable;
 
 interface MediaPlayable {
     public void play();     //재생
@@ -65,7 +63,7 @@ class MediaPlayer {
     public void addMedia(MediaPlayable media) {
 
         // 주어진 media를 mediaList배열에 추가
-        MediaPlayable[] temp = new MediaPlayable[mediaList.length+1];
+        MediaPlayable[] temp = new MediaPlayable[mediaList.length + 1];
 
         for (int i = 0; i < mediaList.length; i++) {
             temp[i] = mediaList[i];
@@ -76,7 +74,7 @@ class MediaPlayer {
 
     public void playAll() {
         // 반복문을 통해 mediaList에 있는 모든 미디어들을 재생시킴
-        for(MediaPlayable media : mediaList){
+        for (MediaPlayable media : mediaList) {
             media.play();
         }
     }
