@@ -1,5 +1,8 @@
 package chap2_4.song;
 
+import chap2_5.fileio.FileExample;
+
+import java.io.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -30,12 +33,12 @@ public class ArtistRepository {
     public void addArtist(String artistName, String songName) {
 
         artistMap.put(artistName, new Artist(artistName));
-        addNewSong(artistName,songName);
+        addNewSong(artistName, songName);
     }
 
     // 기존 가수 객체 정보를 map에 저장하는 기능
     public void addNewSong(String artistName, String songName) {
-        artistMap.get(artistName).addName(artistName,songName);
+        artistMap.get(artistName).addName(artistName, songName);
     }
 
     // 주어진 가수명으로 가수의 노래트랙리스트를 가져오는 기능
@@ -44,7 +47,7 @@ public class ArtistRepository {
         Set<String> keys = artistMap.keySet();
 
         for (String key : keys) {
-            if(key.equals(artistName)){
+            if (key.equals(artistName)) {
                 Artist artist = artistMap.get(artistName);
                 Set<String> songList = artist.getSongList();
                 return songList;
@@ -56,4 +59,34 @@ public class ArtistRepository {
     public Map<String, Artist> getArtistMap() {
         return artistMap;
     }
+
+    // 가수 정보를 세이브 파일에 저장하는 메서드
+    public void save() {
+        String path = FileExample.ROOT_PATH + "/artist.sav";
+
+        try (FileOutputStream fos = new FileOutputStream(path)) {
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(artistMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 가수 정보를 세이브 파일로 부터 로드하는 메서드
+    public void load() {
+        String path = FileExample.ROOT_PATH + "/artist.sav";
+
+        File savaFile = new File(path);
+        if (savaFile.exists()) {
+
+            try (FileInputStream fis = new FileInputStream(path)) {
+                ObjectInputStream oos = new ObjectInputStream(fis);
+                this.artistMap = (Map<String, Artist>) oos.readObject();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
+

@@ -27,7 +27,6 @@ public class ArtistController {
     }
 
     void subView() {
-        while (true) {
             System.out.println("1. 세부 곡 정보 확인");
             System.out.println("2. 메인 메뉴로 돌아가기");
             int inputInt = InputUtil.inputInt(">> ");
@@ -35,12 +34,14 @@ public class ArtistController {
                 case 1: allPrintInfo("sub");
                     break;
                 case 2:
-                    return;
+                    break;
             }
-        }
     }
 
     public void start() {
+
+        repository.load();
+
         while (true) {
             this.mainView();
             int inputNum = InputUtil.inputInt(">>");
@@ -156,5 +157,7 @@ public class ArtistController {
                 System.out.printf("\n# %s님이 신규등록되었습니다.\n", inputName);
             }
         }
+        // 등록완료 후 저장
+        repository.save();
     }
 }
