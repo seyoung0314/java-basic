@@ -1,10 +1,11 @@
 package chap2_4.song;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Artist {
+public class Artist implements Serializable {
 
     private String artistName;
     private Set<String> songList;
