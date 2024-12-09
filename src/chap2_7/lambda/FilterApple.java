@@ -1,11 +1,8 @@
 package chap2_7.lambda;
 
 
-import chap2_7.lambda.basic.GenericPredicate;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 // 사과를 여러가지 방법으로 필터링
 public class FilterApple {

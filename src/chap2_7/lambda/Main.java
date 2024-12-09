@@ -1,9 +1,11 @@
 package chap2_7.lambda;
 
 import chap2_6.inner.AppleWeightPredicate;
-import chap2_7.lambda.basic.GenericPredicate;
 
+import java.time.Instant;
+import java.time.Year;
 import java.util.List;
+import java.util.function.BiFunction;
 
 import static chap2_7.lambda.Color.*;
 
@@ -75,6 +77,17 @@ public class Main {
 //        @FunctionalInterface 라면 한줄로 단순화 가능
         List<String> filteredFood = FilterApple.filterGeneric(foods, food -> food.length() > 3);
         System.out.println("filteredFood = " + filteredFood);
+
+        System.out.println("=========================");
+
+        // 사과 색상만 뽑기
+        List<Color> colorList = MappingApple.mappingApplesByColor(appleBasket);
+        System.out.println("colorList = " + colorList);
+
+        System.out.println("=========================");
+
+        List<Integer> mappedList = MappingApple.mappedApples(appleBasket, map-> map.getWeight());
+        System.out.println("mappedList = " + mappedList);
     }
 
     // 내부 클래스 사용
